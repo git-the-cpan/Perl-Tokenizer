@@ -10,7 +10,7 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(perl_tokens);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =encoding utf8
 
@@ -20,7 +20,7 @@ Perl::Tokenizer - A tiny Perl code tokenizer.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
@@ -546,11 +546,11 @@ sub perl_tokens(&$) {
                 redo;
             }
             when (m{\G(?=__)}) {
-                when (m{\G__(?>DATA|END)__\b.*\z}gcs) {
+                when (m{\G__(?>DATA|END)__\b\h*+(?!=>).*\z}gcs) {
                     $callback->('data', $-[0], $+[0]);
                     redo;
                 }
-                when (m{\G__(?>SUB|FILE|PACKAGE|LINE)__\b}gc) {
+                when (m{\G__(?>SUB|FILE|PACKAGE|LINE)__\b(?!\h*+=>)}gc) {
                     $callback->('special_keyword', $-[0], $+[0]);
                     $canpod = 0;
                     $regex  = 0;
