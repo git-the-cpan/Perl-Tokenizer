@@ -10,7 +10,7 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(perl_tokens);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =encoding utf8
 
@@ -20,7 +20,7 @@ Perl::Tokenizer - A tiny Perl code tokenizer.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
@@ -157,7 +157,7 @@ my $compiled_regex_flags = qr{[mnsixpodual]*};
 
 my @postfix_operators  = qw( ++ -- );
 my @prec_operators     = qw ( ... .. -> ++ -- =~ <=> \\ ? ~~ ~ : );
-my @asigment_operators = qw( && || // ** ! % ^ & * + - = | / . << >> < > );
+my @asigment_operators = qw( && || // ** ! % ^. ^ &. & |. | * + - = / . << >> < > );
 
 my $operators = do {
     local $" = '|';
@@ -898,19 +898,22 @@ For this code:
 
     my $num = 42;
 
-it creates the following tokens:
+it generates the following tokens:
 
-    [ #  TOKEN                    POS
-      { keyword              => [0, 2] },
-      { horizontal_space     => [2, 3] },
-      { scalar_sigil         => [3, 4] },
-      { var_name             => [4, 7] },
-      { horizontal_space     => [7, 8] },
-      { operator             => [8, 9] },
-      { horizontal_space     => [9, 10] },
-      { number               => [10, 12] },
-      { semicolon            => [12, 13] },
-    ]
+      #  TOKEN                    POS
+      ( keyword              => (0, 2) )
+      ( horizontal_space     => (2, 3) )
+      ( scalar_sigil         => (3, 4) )
+      ( var_name             => (4, 7) )
+      ( horizontal_space     => (7, 8) )
+      ( operator             => (8, 9) )
+      ( horizontal_space     => (9, 10) )
+      ( number               => (10, 12) )
+      ( semicolon            => (12, 13) )
+
+=head1 REPOSITORY
+
+L<https://github.com/trizen/Perl-Tokenizer>
 
 =head1 AUTHOR
 
